@@ -1,8 +1,8 @@
-package ru.kata.spring.boot_security.demo.UserRepo;
+package ru.kata.spring.boot_security.demo.dao;
 
 import ru.kata.spring.boot_security.demo.model.User;
+
 import java.util.List;
-import java.util.Optional;
 
 public interface UserDao {
     List<User> getAllUsers();
@@ -17,9 +17,10 @@ public interface UserDao {
 
     User getMail(String mail);
 
-    String getEmailByUsername(String username);
+    String findEmailByUsername(String username);
 
-    public Optional<User> findUserByUsername(String username);
+    public User findByUsername(String username);
 
+    public User findByEmail(String mail);
 }
 

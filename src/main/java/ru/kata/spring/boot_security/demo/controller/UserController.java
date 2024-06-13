@@ -1,31 +1,31 @@
 package ru.kata.spring.boot_security.demo.controller;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.kata.spring.boot_security.demo.UserRepo.UserDao;
-import ru.kata.spring.boot_security.demo.securitu.MyUserDetails;
+import ru.kata.spring.boot_security.demo.service.RoleService;
+import ru.kata.spring.boot_security.demo.service.UserService;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/user")
 class UserController {
-    private final UserDao userDao;
 
-    public UserController(UserDao userDao) {
-        this.userDao = userDao;
+    private final UserService userService;
+    private final RoleService roleService;
+
+    public UserController(UserService userService, RoleService roleService) {
+        this.userService = userService;
+        this.roleService = roleService;
     }
 
-    @GetMapping("/showForUser")
-    public String login(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
-        String username = myUserDetails.getUsername();
-        String mail = String.valueOf(userDao.getEmailByUsername(username));
-        model.addAttribute("username", username);
-        model.addAttribute("mail", mail);
-        return "showForUser";
+    @GetMapping()
+    public String login(Model model, Principal principal) {
+        model.addAttribute("currentUser", userService.findByUsername(principal.getName()));
+        model.addAttribute("roleUser", roleService.findRoleById(13L).getName());
+        model.addAttribute("roleAdmin", roleService.findRoleById(14L).getName());
+        model.addAttribute("roles", roleService.findAllRoles());
+        return "user";
     }
 }

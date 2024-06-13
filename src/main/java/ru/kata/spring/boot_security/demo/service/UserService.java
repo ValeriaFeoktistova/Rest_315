@@ -1,11 +1,12 @@
 package ru.kata.spring.boot_security.demo.service;
 
-import ru.kata.spring.boot_security.demo.model.Role;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.List;
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
 
     List<User> getAllUsers();
 
@@ -17,8 +18,12 @@ public interface UserService {
 
     public void createUser(User user);
 
-    public List<Role> getRolesById(List<Long> roleIds);
-
     public void updateUser(User user);
+
+    String findEmailByUsername(String username);
+
+    public User findByUsername(String username);
+
+    public UserDetails loadUserByUsername(String username);
 
 }
