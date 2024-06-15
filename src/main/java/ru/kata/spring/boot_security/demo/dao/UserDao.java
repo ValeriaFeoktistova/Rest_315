@@ -15,12 +15,7 @@ public interface UserDao {
 
     User getUser(long id);
 
-    User getMail(String mail);
-
-    String findEmailByUsername(String username);
-
     public User findByUsername(String username);
 
-    public User findByEmail(String mail);
 }
 

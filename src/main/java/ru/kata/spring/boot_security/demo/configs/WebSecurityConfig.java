@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 @Configuration
-//@ComponentScan(basePackages = {"ru.kata.spring.boot_security.demo"})
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final SuccessUserHandler successUserHandler;
@@ -44,7 +43,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").hasAnyRole("ADMIN")
                 .anyRequest().authenticated();
 
-        //Настройка для входа в систему
         http.formLogin()
                 .loginPage("/login")
                 .successHandler(successUserHandler)

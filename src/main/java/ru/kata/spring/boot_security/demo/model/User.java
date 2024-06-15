@@ -3,12 +3,22 @@ package ru.kata.spring.boot_security.demo.model;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
@@ -23,7 +33,7 @@ public class User {
     @Size(min = 2, max = 11, message = "Name should be between 2 to 11")
     private String name;
 
-    @Column(name = "lastName")/////////////////////////////////////
+    @Column(name = "lastName")
     private String lastName;
 
     @Column(name = "password")
@@ -33,7 +43,7 @@ public class User {
     @Column(name = "mail")
     private String mail;
 
-    @Column(name = "age")////////////////////////////////////////////
+    @Column(name = "age")
     private Integer age;
 
     public User(long id, String name, String password, String mail, String lastName, Integer age) {
