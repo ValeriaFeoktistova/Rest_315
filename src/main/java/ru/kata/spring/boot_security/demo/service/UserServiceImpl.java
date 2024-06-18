@@ -17,11 +17,28 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
-    private final PasswordEncoder passwordEncoder;
+    //private final PasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserDaoImpl userDao, PasswordEncoder passwordEncoder) {
         this.userDao = userDao;
-        this.passwordEncoder = passwordEncoder;
+       // this.passwordEncoder = passwordEncoder;
+    }
+    @Override
+    @Transactional
+    public User findUserByUsername(String username) {
+        return userDao.findUserByUsername(username);
+    }
+
+    @Override
+    @Transactional
+    public User findUserByMail(String mail) {
+        return userDao.findUserByMail(mail);
+    }
+
+    @Override
+    @Transactional
+    public User findUserById(long id) {
+        return userDao.findUserById(id);
     }
 
     @Override
@@ -31,45 +48,45 @@ public class UserServiceImpl implements UserService {
     }
 
 
+ /*  @Override
+      @Transactional
+      public void saveUser(User user) {
+          user.setPassword(passwordEncoder.encode(user.getPassword()));
+          try {
+              userDao.saveUser(user);
+          } catch (PersistenceException e) {
+              throw new UserCreationException("Failed to create user due to persistence error", e);
+          }
+      }*/
     @Override
     @Transactional
-    public void createUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        try {
-            userDao.createUser(user);
-        } catch (PersistenceException e) {
-            throw new UserCreationException("Failed to create user due to persistence error", e);
-        }
+    public void saveUser(User user) {
+        userDao.saveUser(user);
     }
 
     @Override
     @Transactional
-    public void updateUser(User user) {
-        userDao.updateUser(user);
+    public void removeUser(long id) {
+        userDao.removeUser(id);
     }
 
     @Override
     @Transactional
-    public User findByUsername(String username) {
-        return userDao.findByUsername(username);
+    public void updateUserForJs(User user) {
+        userDao.updateUserForJs(user);
     }
 
     @Override
     @Transactional
-    public User getUser(long id) {
-        return userDao.getUser(id);
+    public void updateUser(User user, Long id) {
+        userDao.updateUser(user, id);
     }
 
-    @Override
-    @Transactional
-    public void deleteUser(long id) {
-        userDao.deleteUser(id);
-    }
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userDao.findByUsername(username);
+        User user = userDao.findUserByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException(String.format("User '%s' not found", username));
         }

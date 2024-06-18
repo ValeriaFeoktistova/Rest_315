@@ -9,10 +9,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping({"/", "/login"})
 public class LoginController {
-    /*@RequestMapping(value = {"/", "/login"})
+@RequestMapping(value = {"/", "/login"})
     public String loginPage() {
         return "login";
-    }*/
+    }
+
     @GetMapping
     public String login(@RequestParam(value = "error", required = false) String errorMessage,
                         @RequestParam(value = "logout", required = false) String logoutMessage, Model model) {
